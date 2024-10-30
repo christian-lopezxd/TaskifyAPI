@@ -1,0 +1,32 @@
+// Definición de la fuente de datos (SQL Server)
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+// Generador del cliente Prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Modelo para Usuarios
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String   @unique
+  tareas    Tarea[]  // Relación uno-a-muchos con tareas
+  creadoEn  DateTime @default(now()) // Fecha de creación
+  actualizadoEn DateTime @updatedAt  // Fecha de última actualización
+}
+
+// Modelo para Tareas
+model Tarea {
+  id          Int      @id @default(autoincrement())
+  titulo      String
+  descripcion String?
+  completada  Boolean  @default(false)
+  usuarioId   Int      // Relación con el usuario
+  usuario     Usuario  @relation(fields: [usuarioId], references: [id])
+  creadoEn    DateTime @default(now()) // Fecha de creación
+  actualizadoEn DateTime @updatedAt    // Fecha de última actualización
+}
