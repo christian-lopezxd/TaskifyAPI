@@ -10,7 +10,7 @@ export class CreateTaskDto {
   @ApiProperty({
     example: 'Finish the final report for the project by end of the week.',
     description: 'A brief description of the task',
-    required: false, // Indica que es opcional
+    required: false,
   })
   description?: string;
 
