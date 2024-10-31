@@ -10,23 +10,21 @@ generator client {
 }
 
 // Modelo para Usuarios
-model Usuario {
-  id        Int      @id @default(autoincrement())
-  nombre    String
-  email     String   @unique
-  tareas    Tarea[]  // Relación uno-a-muchos con tareas
-  creadoEn  DateTime @default(now()) // Fecha de creación
-  actualizadoEn DateTime @updatedAt  // Fecha de última actualización
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  tasks    Task[]
 }
 
+
 // Modelo para Tareas
-model Tarea {
+model Task {
   id          Int      @id @default(autoincrement())
-  titulo      String
-  descripcion String?
-  completada  Boolean  @default(false)
-  usuarioId   Int      // Relación con el usuario
-  usuario     Usuario  @relation(fields: [usuarioId], references: [id])
-  creadoEn    DateTime @default(now()) // Fecha de creación
-  actualizadoEn DateTime @updatedAt    // Fecha de última actualización
+  title       String
+  description String?
+  completed   Boolean  @default(false)
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
 }
+

@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateUsuarioDto {
+export class CreateUserDto {
   @ApiProperty({ example: 'Juan Perez' }) // Propiedad visible en Swagger
-  nombre: string;
+  name: string;
 
   @ApiProperty({ example: 'juan@example.com' })
   email: string;
