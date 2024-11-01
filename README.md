@@ -6,7 +6,7 @@ Taskify API es una API desarrollada con Node.js, NestJS, y Prisma ORM, diseñada
 - [Instalación](#instalación)
 - [Configuración](#configuración)
 - [Ejecución del Proyecto](#ejecución-del-proyecto)
-- [Documentación de la API](#documentación-de-la-api)
+- [Documentación de la API](#documentación)
 
 ---
 
