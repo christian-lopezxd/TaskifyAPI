@@ -10,9 +10,8 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  @ApiResponse({ status: 201, description: 'Task created successfully.' })
-  @ApiResponse({ status: 400, description: 'Bad Request - Invalid data.' })
-  @ApiResponse({ status: 409, description: 'Conflict - Task with this title already exists.' })
+  @ApiResponse({ status: 201, description: 'Task created successfully' })
+  @ApiResponse({ status: 404, description: 'User not found' })
   async create(@Body() createTaskDto: CreateTaskDto) {
     return this.tasksService.create(createTaskDto);
   }
@@ -33,12 +32,14 @@ export class TasksController {
   }
 
   @Patch(':id')
-  @ApiResponse({ status: 200, description: 'Task updated successfully.' })
+  @ApiResponse({ status: 200, description: 'Task updated successfully' })
   @ApiResponse({ status: 400, description: 'Bad Request - Invalid data.' })
   @ApiResponse({ status: 404, description: 'Not Found - Task with this ID does not exist.' })
-  @ApiResponse({ status: 409, description: 'Conflict - Task with this title already exists.' })
-  async update(@Param('id') id: number, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(+id, updateTaskDto);
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ) {
+    return this.tasksService.update(id, updateTaskDto);
   }
 
   @Delete(':id')
