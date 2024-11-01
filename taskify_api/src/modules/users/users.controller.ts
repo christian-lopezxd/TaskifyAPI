@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -38,10 +38,9 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @ApiResponse({ status: 204, description: 'User deleted successfully.' })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id') id: number) {
-    return this.usersService.remove(+id);
+  @ApiResponse({ status: 200, description: 'User deleted successfully' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.usersService.remove(id);
   }
 }
