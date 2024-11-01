@@ -17,10 +17,11 @@ export class UpdateTaskDto extends PartialType(CreateTaskDto) {
   })
   description?: string;
 
+
   @ApiProperty({
-    example: 1,
-    description: 'The ID of the user associated with this task',
+    example: true,
+    description: 'Indicates if the task is completed',
     required: false,
   })
-  userId?: number;
+  completed?: boolean;
 }
