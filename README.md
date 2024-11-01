@@ -6,7 +6,7 @@ Taskify API es una API desarrollada con Node.js, NestJS, y Prisma ORM, diseñada
 - [Instalación](#instalación)
 - [Configuración](#configuración)
 - [Ejecución del Proyecto](#ejecución-del-proyecto)
-- [Documentación de la API](#documentación-de-la-api)
+- [Documentación de la API](#documentación)
 
 ---
 
@@ -20,7 +20,8 @@ Taskify API es una API desarrollada con Node.js, NestJS, y Prisma ORM, diseñada
 ### Clonar el repositorio
 Clona este repositorio en tu máquina local:
 ```bash
-git clone https://github.com/tu-usuario/taskify_api.git
+git clone https://github.com/christian-lopezxd/TaskifyAPI.git
+cd TaskifyAPI
 cd taskify_api
 ```
 ### Instalar dependencias
@@ -35,10 +36,10 @@ Para configurar el proyecto, sigue los siguientes pasos:
 1. **Configurar Variables de Entorno**: Crea un archivo `.env` en la raíz del proyecto con las siguientes variables de entorno:
 
     ```dotenv
-    DATABASE_URL="sqlserver://<USUARIO>:<CONTRASEÑA>@<HOST>:<PUERTO>;database=<NOMBRE_DB>;encrypt=true;trustServerCertificate=true"
+    DATABASE_URL="sqlserver://<HOST>:<PORT>;database=taskifybd;user=<USER>;password=<PASSWORD>;encrypt=true;trustServerCertificate=true"
     ```
 
-   - Reemplaza `<USUARIO>`, `<CONTRASEÑA>`, `<HOST>`, `<PUERTO>`, y `<NOMBRE_DB>` con los valores correspondientes a tu configuración de base de datos.
+   - Reemplaza `<USER>`, `<PASSWORD>`, `<HOST>`, `<PORT>`, y `<DATABASE>` con los valores correspondientes a tu configuración de base de datos.
 
 2. **Ejecutar Migraciones**: Para aplicar las migraciones a la base de datos, ejecuta el siguiente comando en la terminal:
 

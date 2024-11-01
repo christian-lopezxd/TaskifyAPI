@@ -8,8 +8,15 @@ import { Prisma } from '@prisma/client';
 export class TasksService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /**
+   * Crea una nueva tarea
+   * @param data - Datos de la tarea a crear
+   * @throws NotFoundException - Si el usuario no existe
+   * @throws ConflictException - Si ya existe una tarea con el mismo título
+   * @returns La tarea creada
+   */
   async create(data: CreateTaskDto) {
-    // Verificación preliminar para asegurarse de que el usuario existe
+    // Verificación preliminar para asegurar que el usuario existe
     const user = await this.prisma.user.findUnique({
       where: { id: data.userId },
     });
@@ -19,26 +26,36 @@ export class TasksService {
     }
 
     try {
-      // Intento de crear la tarea si el usuario existe
+      // Crea la tarea si el usuario existe
       return await this.prisma.task.create({ data });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2002') { // Código de error de duplicidad en Prisma
+        // Lanza un error si el título de la tarea es duplicado
+        if (error.code === 'P2002') {
           throw new ConflictException('Task with this title already exists');
         }
       }
-      throw error; // Lanza otros errores si no son de Prisma
+      throw error; // Lanza otros errores si no son específicos de Prisma
     }
   }
 
-
-   // Método para obtener todas las tareas por userId
-   async findAllByUserId(userId: number) {
+  /**
+   * Obtiene todas las tareas de un usuario específico
+   * @param userId - ID del usuario
+   * @returns Una lista de tareas asociadas al usuario
+   */
+  async findAllByUserId(userId: number) {
     return this.prisma.task.findMany({
       where: { userId },
     });
   }
 
+  /**
+   * Obtiene una tarea por su ID
+   * @param id - ID de la tarea
+   * @throws NotFoundException - Si la tarea no existe
+   * @returns La tarea con el ID especificado
+   */
   async findOne(id: number) {
     const task = await this.prisma.task.findUnique({
       where: { id },
@@ -49,8 +66,16 @@ export class TasksService {
     return task;
   }
 
+  /**
+   * Actualiza una tarea existente
+   * @param id - ID de la tarea
+   * @param data - Datos a actualizar en la tarea
+   * @throws NotFoundException - Si la tarea no existe
+   * @throws BadRequestException - Si los datos proporcionados son inválidos
+   * @returns La tarea actualizada
+   */
   async update(id: number, data: UpdateTaskDto) {
-    // Verificar si la tarea existe
+    // Verificar si la tarea existe antes de actualizarla
     const existingTask = await this.prisma.task.findUnique({
       where: { id },
     });
@@ -73,12 +98,20 @@ export class TasksService {
     }
   }
 
+  /**
+   * Elimina una tarea por su ID
+   * @param id - ID de la tarea
+   * @throws NotFoundException - Si la tarea no existe
+   * @returns La tarea eliminada
+   */
   async remove(id: number) {
+    // Verificar si la tarea existe antes de eliminarla
     const taskExists = await this.prisma.task.findUnique({ where: { id } });
     if (!taskExists) {
       throw new NotFoundException(`Task with ID ${id} not found`);
     }
 
+    // Eliminar la tarea
     return this.prisma.task.delete({
       where: { id },
     });
