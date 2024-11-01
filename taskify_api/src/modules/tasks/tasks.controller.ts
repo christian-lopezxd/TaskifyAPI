@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, ParseIntPipe } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -17,12 +17,13 @@ export class TasksController {
     return this.tasksService.create(createTaskDto);
   }
 
-  @Get()
-  @ApiResponse({ status: 200, description: 'Retrieve all tasks.' })
-  @Get(':userId')
-  findAllByUser(@Param('userId') usuarioId: string) {
-    return this.tasksService.findAllByUser(+usuarioId);
-  }
+   // Ruta para obtener todas las tareas por userId
+   @Get('/user/:userId')
+   @ApiResponse({ status: 200, description: 'Retrieve all tasks for a specific user' })
+   async findAllByUserId(@Param('userId', ParseIntPipe) userId: number) {
+     return this.tasksService.findAllByUserId(userId);
+   }
+ 
 
   @Get(':id')
   @ApiResponse({ status: 200, description: 'Task found.' })

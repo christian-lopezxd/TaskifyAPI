@@ -21,8 +21,12 @@ export class TasksService {
     }
   }
 
-  findAllByUser(userId: number) {
-    return this.prisma.task.findMany({ where: { userId } });
+
+   // Método para obtener todas las tareas por userId
+   async findAllByUserId(userId: number) {
+    return this.prisma.task.findMany({
+      where: { userId },
+    });
   }
 
   async findOne(id: number) {
